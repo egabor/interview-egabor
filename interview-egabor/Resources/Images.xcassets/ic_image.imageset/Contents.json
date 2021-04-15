@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "SM-placeholder-1024x512.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

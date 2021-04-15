@@ -1,0 +1,27 @@
+input_dir: "./"
+output_dir: "interview-egabor/Resources/Generated"
+
+# Localization Configuration
+strings:
+    - inputs: "interview-egabor/Resources/en.lproj/Localizable.strings"
+      outputs:
+        params:
+            enumName: Localized
+            publicAccess: true
+        templateName: structured-swift5
+        output: Localizable.swift
+
+fonts:
+  - inputs: "interview-egabor/Resources/Fonts"
+    outputs:
+      params:
+        enumName: Fonts
+        publicAccess: true
+      templateName: swift5
+      output: Fonts.swift
+
+ib:
+  inputs: "interview-egabor/Features"
+  outputs:
+    - templateName: segues-swift5
+      output: Segues.swift
