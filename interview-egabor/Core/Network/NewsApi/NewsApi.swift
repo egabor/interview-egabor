@@ -6,11 +6,11 @@
 //
 
 import Foundation
-import PromiseKit
+import Combine
 
 public class NewsApi: BaseApi, NewsApiProtocol {
 
-    public func getArticles(keyword: String? = nil, for page: Int = 1, pageSize: Int) -> Promise<List<Article>> {
+    public func getArticles(keyword: String? = nil, for page: Int = 1, pageSize: Int) -> Future<List<Article>, Error> {
         var query = [URLQueryItem]()
         if let keyword = keyword {
             query.append(URLQueryItem(name: "q", value: keyword))

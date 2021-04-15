@@ -6,11 +6,11 @@
 //
 
 import UIKit
-import RxSwift
+import Combine
 
 class ArticleDetailViewController: UIViewController {
 
-    let disposeBag = DisposeBag()
+    var disposables = Set<AnyCancellable>()
 
     @IBOutlet var coverImageView: UIImageView!
     @IBOutlet var titleLabel: UILabel!
@@ -30,10 +30,20 @@ class ArticleDetailViewController: UIViewController {
     }
 
     private func setupBindings() {
-        viewModel.imageUrl.asObservable().subscribe { [weak self] imageUrl in
-            self?.coverImageView.loadImageUrl(imageURL: imageUrl)
-        }.disposed(by: disposeBag)
-        viewModel.title.asObservable().bind(to: titleLabel.rx.text).disposed(by: disposeBag)
-        viewModel.content.asObservable().bind(to: contentLabel.rx.text).disposed(by: disposeBag)
+        viewModel.$imageUrl
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { _ in }, receiveValue: { imageUrl in
+                self.coverImageView.loadImageUrl(imageURL: imageUrl)
+            }).store(in: &disposables)
+
+        viewModel.$title
+            .compactMap { $0 }
+            .assign(to: \.text, on: titleLabel)
+            .store(in: &disposables)
+
+        viewModel.$content
+            .compactMap { $0 }
+            .assign(to: \.text, on: contentLabel)
+            .store(in: &disposables)
     }
 }

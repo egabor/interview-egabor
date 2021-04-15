@@ -7,7 +7,7 @@
 
 import Foundation
 import Alamofire
-import PromiseKit
+import Combine
 
 enum BaseApiError: Error {
     case generalError
@@ -35,24 +35,25 @@ public class BaseApi {
         ]
     }
 
-    func buildRequest<T: Codable>(with requestData: URLRequestConvertible) -> Promise<T> {
-        return Promise { seal in
+    func buildRequest<T: Codable>(with requestData: URLRequestConvertible) -> Future<T, Error> {
+        return Future { promise in
             AF.request(requestData)
                 .validate(statusCode: 200...299)
-                .responseDecodable(decoder: self.decoder,
-                                   completionHandler: { (response: DataResponse<T, AFError>) in
-                switch response.result {
-                case let .success(result):
-                    seal.fulfill(result)
-                case .failure:
-                    print("\(response.result)")
-                    guard let data = response.data, let errorObject = self.convertToNetworkError(data: data) else {
-                        seal.reject(BaseApiError.generalError)
-                        return
-                    }
-                    seal.reject(errorObject)
-                }
-            })
+                .responseDecodable(
+                    decoder: self.decoder,
+                    completionHandler: { (response: DataResponse<T, AFError>) in
+                        switch response.result {
+                        case let .success(result):
+                            promise(.success(result))
+                        case .failure:
+                            guard let data = response.data,
+                                  let errorObject = self.convertToNetworkError(data: data) else {
+                                promise(.failure(BaseApiError.generalError))
+                                return
+                            }
+                            promise(.failure(errorObject))
+                        }
+                    })
         }
     }
 

@@ -6,9 +6,9 @@
 //
 
 import Foundation
-import PromiseKit
+import Combine
 
 public protocol NewsApiProtocol {
 
-    func getArticles(keyword: String?, for page: Int, pageSize: Int) -> Promise<List<Article>>
+    func getArticles(keyword: String?, for page: Int, pageSize: Int) -> Future<List<Article>, Error>
 }
