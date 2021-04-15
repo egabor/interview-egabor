@@ -56,11 +56,6 @@
 		625A68112610B6D9009876CA /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 625A680F2610B6D9009876CA /* .swiftlint.yml */; };
 		625A68122610B6D9009876CA /* swiftgen.yml in Resources */ = {isa = PBXBuildFile; fileRef = 625A68102610B6D9009876CA /* swiftgen.yml */; };
 		625A68342610B82D009876CA /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 625A68332610B82D009876CA /* Alamofire */; };
-		625A683A2610B850009876CA /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 625A68392610B850009876CA /* RxSwift */; };
-		625A683E2610B850009876CA /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 625A683D2610B850009876CA /* RxRelay */; };
-		625A68402610B850009876CA /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 625A683F2610B850009876CA /* RxCocoa */; };
-		625A68422610B850009876CA /* RxBlocking in Frameworks */ = {isa = PBXBuildFile; productRef = 625A68412610B850009876CA /* RxBlocking */; };
-		625A684E2610B8A2009876CA /* PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = 625A684D2610B8A2009876CA /* PromiseKit */; };
 		625A68662610B96B009876CA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 625A68682610B96B009876CA /* Localizable.strings */; };
 		625A686E2610B9AC009876CA /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625A686D2610B9AC009876CA /* Env.swift */; };
 		625A688F2610BAD0009876CA /* DependencyProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625A688E2610BAD0009876CA /* DependencyProvider.swift */; };
@@ -159,14 +154,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				625A68402610B850009876CA /* RxCocoa in Frameworks */,
-				625A684E2610B8A2009876CA /* PromiseKit in Frameworks */,
-				625A683E2610B850009876CA /* RxRelay in Frameworks */,
-				625A683A2610B850009876CA /* RxSwift in Frameworks */,
 				D44F43BFB53FAB241ECD0F4E /* Pods_interview_egabor.framework in Frameworks */,
 				625A68342610B82D009876CA /* Alamofire in Frameworks */,
 				6253E5E826279BF8007F541C /* SDWebImage in Frameworks */,
-				625A68422610B850009876CA /* RxBlocking in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -450,11 +440,6 @@
 			name = "interview-egabor";
 			packageProductDependencies = (
 				625A68332610B82D009876CA /* Alamofire */,
-				625A68392610B850009876CA /* RxSwift */,
-				625A683D2610B850009876CA /* RxRelay */,
-				625A683F2610B850009876CA /* RxCocoa */,
-				625A68412610B850009876CA /* RxBlocking */,
-				625A684D2610B8A2009876CA /* PromiseKit */,
 				6253E5E726279BF8007F541C /* SDWebImage */,
 			);
 			productName = "interview-egabor";
@@ -486,8 +471,6 @@
 			mainGroup = 625A67CA2610B5DC009876CA;
 			packageReferences = (
 				625A68322610B82D009876CA /* XCRemoteSwiftPackageReference "Alamofire" */,
-				625A68382610B850009876CA /* XCRemoteSwiftPackageReference "RxSwift" */,
-				625A684C2610B8A2009876CA /* XCRemoteSwiftPackageReference "PromiseKit" */,
 				6253E5E626279BF8007F541C /* XCRemoteSwiftPackageReference "SDWebImage" */,
 			);
 			productRefGroup = 625A67D42610B5DC009876CA /* Products */;
@@ -877,22 +860,6 @@
 				version = 5.2.2;
 			};
 		};
-		625A68382610B850009876CA /* XCRemoteSwiftPackageReference "RxSwift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ReactiveX/RxSwift";
-			requirement = {
-				kind = exactVersion;
-				version = 6.1.0;
-			};
-		};
-		625A684C2610B8A2009876CA /* XCRemoteSwiftPackageReference "PromiseKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/mxcl/PromiseKit";
-			requirement = {
-				kind = exactVersion;
-				version = 6.13.3;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -905,31 +872,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 625A68322610B82D009876CA /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
-		};
-		625A68392610B850009876CA /* RxSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 625A68382610B850009876CA /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxSwift;
-		};
-		625A683D2610B850009876CA /* RxRelay */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 625A68382610B850009876CA /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxRelay;
-		};
-		625A683F2610B850009876CA /* RxCocoa */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 625A68382610B850009876CA /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxCocoa;
-		};
-		625A68412610B850009876CA /* RxBlocking */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 625A68382610B850009876CA /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxBlocking;
-		};
-		625A684D2610B8A2009876CA /* PromiseKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 625A684C2610B8A2009876CA /* XCRemoteSwiftPackageReference "PromiseKit" */;
-			productName = PromiseKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

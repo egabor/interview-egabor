@@ -6,11 +6,11 @@
 //
 
 import UIKit
-import RxSwift
+import Combine
 
 class ArticlesViewController: UIViewController {
 
-    let disposeBag = DisposeBag()
+    var disposables = Set<AnyCancellable>()
 
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
@@ -49,33 +49,30 @@ class ArticlesViewController: UIViewController {
     }
 
     private func setupBindings() {
-        viewModel.error.asObservable().subscribe(onNext: { [weak self] message in
-            guard let self = self, let message = message else { return }
-            self.showError(with: message)
-        }).disposed(by: disposeBag)
+        viewModel.$isLoading
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { _ in }, receiveValue: { isLoading in
+                if isLoading {
+                    self.showLoading()
+                } else {
+                    self.hideLoading()
+                }
+            }).store(in: &disposables)
 
-        viewModel.isLoading.asObservable().subscribe(onNext: { [weak self] isLoading in
-            if isLoading {
-                self?.showLoading()
-            } else {
-                self?.hideLoading()
-            }
-        }).disposed(by: disposeBag)
+        viewModel.$error
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { _ in }, receiveValue: { message in
+                guard let message = message else { return }
+                self.showError(with: message)
+            }).store(in: &disposables)
 
-        viewModel.viewData.asObservable().subscribe(onNext: { [weak self] viewData in
-            self?.collectionView.collectionViewLayout.invalidateLayout()
-            self?.articlesDataSourceProvider?.applySnapshot(viewData)
-        }).disposed(by: disposeBag)
+        viewModel.$viewData
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { _ in }, receiveValue: { viewData in
+                self.collectionView.collectionViewLayout.invalidateLayout()
+                self.articlesDataSourceProvider?.applySnapshot(viewData)
+            }).store(in: &disposables)
 
-        collectionView.rx.didScroll.map { [weak self] in
-            return self?.shouldLoadNextPage() ?? false
-        }
-        .asObservable()
-        .distinctUntilChanged()
-        .subscribe(onNext: { shouldLoadNextPage in
-            guard shouldLoadNextPage else { return }
-            self.viewModel.loadNextPage()
-        }).disposed(by: disposeBag)
     }
 
     // MARK: - Alert
@@ -108,7 +105,7 @@ class ArticlesViewController: UIViewController {
     // MARK: - Paging Helpers
 
     private func shouldLoadNextPage() -> Bool {
-        return isCollectionViewBottomNear() && !viewModel.isNextPageLoading.value && viewModel.hasNextPage.value
+        return isCollectionViewBottomNear() && !viewModel.isNextPageLoading && viewModel.hasNextPage
     }
 
     private func isCollectionViewBottomNear() -> Bool {
@@ -129,10 +126,19 @@ class ArticlesViewController: UIViewController {
     }
 }
 
+// MARK: - SearchBarDelegate
+
 extension ArticlesViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         viewModel.loadArticles(keyword: searchBar.text)
         searchBar.resignFirstResponder()
+    }
+}
+
+extension ArticlesViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard shouldLoadNextPage() else { return }
+        self.viewModel.loadNextPage()
     }
 }
 
@@ -143,9 +149,9 @@ extension ArticlesViewController: UICollectionViewDelegate, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        guard viewModel.viewData.value.count > indexPath.item else { return .zero }
+        guard viewModel.viewData.count > indexPath.item else { return .zero }
         var cellHeight: CGFloat = 0.0
-        let data = viewModel.viewData.value[indexPath.item]
+        let data = viewModel.viewData[indexPath.item]
         switch data {
         case .headerArticle:
             cellHeight = 360.0

@@ -6,19 +6,19 @@
 //
 
 import Foundation
-import RxCocoa
+import Combine
 
 class ArticleDetailViewModel {
 
-    let imageUrl = BehaviorRelay<String?>(value: nil)
-    let title = BehaviorRelay<String>(value: "")
-    let content = BehaviorRelay<String>(value: "")
+    @Published var imageUrl: String?
+    @Published var title: String = ""
+    @Published var content: String = ""
 
     init() {}
 
     public func setup(with article: Article) {
-        imageUrl.accept(article.urlToImage)
-        title.accept(article.title)
-        content.accept(article.content)
+        imageUrl = article.urlToImage
+        title = article.title
+        content = article.content
     }
 }
