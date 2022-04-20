@@ -1,6 +1,6 @@
 //
 //  Date+TimeAgo.swift
-//  interview-egabor
+//  news-example
 //
 //  Created by Eszenyi Gábor on 2021. 04. 15..
 //

@@ -1,6 +1,6 @@
 //
 //  Debug.xcconfig
-//  interview-egabor
+//  news-example
 //
 //  Created by Eszenyi Gábor on 2021. 04. 14..
 //
@@ -10,7 +10,7 @@
 
 // MARK: - Genaral App Configuration
 
-BUNDLE_ID = com.gaboreszenyi.interview-egabor
+BUNDLE_ID = com.gaboreszenyi.news-example
 
 APP_NAME = News
 
