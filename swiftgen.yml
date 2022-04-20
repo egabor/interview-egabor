@@ -1,9 +1,9 @@
 input_dir: "./"
-output_dir: "interview-egabor/Resources/Generated"
+output_dir: "news-example/Resources/Generated"
 
 # Localization Configuration
 strings:
-    - inputs: "interview-egabor/Resources/en.lproj/Localizable.strings"
+    - inputs: "news-example/Resources/en.lproj/Localizable.strings"
       outputs:
         params:
             enumName: Localized
@@ -12,7 +12,7 @@ strings:
         output: Localizable.swift
 
 fonts:
-  - inputs: "interview-egabor/Resources/Fonts"
+  - inputs: "news-example/Resources/Fonts"
     outputs:
       params:
         enumName: Fonts
@@ -21,7 +21,7 @@ fonts:
       output: Fonts.swift
 
 ib:
-  inputs: "interview-egabor/Features"
+  inputs: "news-example/Features"
   outputs:
     - templateName: segues-swift5
       output: Segues.swift
